@@ -3,3 +3,4 @@
 /tmp/*
 composer.lock
 /tornado/config.php
+/tornado/mail_config.php
