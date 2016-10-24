@@ -1,0 +1,5 @@
+/nbproject/private/
+/vendor/*
+/tmp/*
+composer.lock
+/tornado/config.php
