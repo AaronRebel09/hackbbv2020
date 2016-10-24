@@ -46,7 +46,7 @@ class Controller {
      * @param type $data
      * @return type
      */
-    public function renderView($res, $data = '') {
+    public function renderView($res, $data =[]) {
         $session=$this->session_handle->getSegment('Tornado\Session');
         $data= array_merge(["user"=>$session->get("user")],$data);
         $alert= $this->session->getFlash("alert");
