@@ -8,8 +8,9 @@
 global $ROUTES;
 $ROUTES=[
     "/home"=>[
-      'path'=>'/',
-      'get'=>array('Plain','home')
+        'path'=>'/',
+        'allow'=>true,
+        'get'=>array('Plain','home')
     ]  
 ];
 foreach ($ROUTES as $key => $route) {
