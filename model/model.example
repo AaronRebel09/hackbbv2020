@@ -1,0 +1,36 @@
+<?php
+    namespace Entity;
+    use Spot\EntityInterface as Entity;
+    use Spot\MapperInterface as Mapper;
+    class Algo extends \Spot\Entity
+    {
+        protected static $table = 'algo';
+        public static function fields()
+        {
+            return [
+                'id'                    => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
+                'nombre'                => ['type' => 'string',  'required' => true,'unique'=>true],
+                'codigo'                => ['type' => 'string',  'required' => true,'unique'=>true],
+                'markup'                => ['type' => 'decimal', 'required'=>true],
+                'direccion'             => ['type' => 'string', 'required' => true],
+                'cp'                    => ['type' => 'string', 'required'=>true],
+                'telefono'              => ['type' => 'string', 'required'=>true],
+                'fax'                   => ['type' => 'string', 'required'=>true],
+                'branch'                => ['type' => 'string','required'=>true],
+                'depto'                 => ['type' => 'string','required'=>true],
+                'ciudad_id'             => ['type' => 'integer','required'=>true],
+                'oculto'                => ['type' => 'boolean','required'=>true],
+            ];
+        }
+        /**
+        *   Se establece como se relaciona esta entidad con otras entidades
+        **/
+        public static function relations(Mapper $mapper, Entity $entity)
+        {
+            return [
+                'ciudad' => $mapper->belongsTo($entity, 'Entity\Ciudad', 'ciudad_id'),
+                'agentes' => $mapper->hasMany($entity, 'Entity\AgenteViaje', 'agencia_id'),
+                'contactos' => $mapper->hasMany($entity, 'Entity\ContactoAgencia', 'agencia_id'),
+            ];
+        }
+    }
