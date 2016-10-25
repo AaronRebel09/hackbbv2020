@@ -6,6 +6,7 @@
         "monolog/monolog": "^1.17",
         "zaphpa/zaphpa": "^2.1.1",
         "aura/session": "^2.0",
-        "phpmailer/phpmailer": "~5.2"
+        "phpmailer/phpmailer": "~5.2",
+        "smottt/wideimage":"dev-master"
     }
 }

@@ -5,8 +5,8 @@ namespace Tornado;
 * @author geoskull
 */
 class Imagenes {
-    private $RutaImagen = "/assets/img/";//ruta de la imagen normal
-    private $RutaImagenSmall="/assets/img/small/";//ruta del thumbnail
+    private $RutaImagen = "/resources/img/";//ruta de la imagen normal
+    private $RutaImagenSmall="/resources/img/small/";//ruta del thumbnail
     private $ruta;//definicion de ruta superior
     private $nombre;//nombre de la imagen
     private $hashNombre;//hash del nombre de la imagen
@@ -109,13 +109,15 @@ class Imagenes {
      * @param type $rutaImg
      */
     private function proporcion($info_imagen,$rutaImg) {
-        $img_alto=$info_imagen[0];
-        $img_ancho=$info_imagen[1];
-        $img_tipo=$info_imagen["mime"];
-        $prop_img=$img_ancho/$img_alto;
-        $prop_min= $this->minAnc/$this->minAlt;
-        $min_anc=0;
-        $min_alt=0;
+        $img_alto=$info_imagen[0];//se obtiene ancho de imagen
+        $img_ancho=$info_imagen[1];//se obtiene alto de imagen
+        $prop_img=$img_ancho/$img_alto;//se saca la proporcion de la imagen
+        $prop_min= $this->minAnc/$this->minAlt;//se saca la proporcion del thumbnail
+        $min_anc=0;//ancho thumbnail
+        $min_alt=0;//alto thumbnail
+        /**
+         * Calculo de valores en base a la proporcionalidad
+         */
         if($prop_img>$prop_min){
             $min_anc= $this->minAnc;
             $min_alt= $this->minAnc/$prop_img;
@@ -127,32 +129,9 @@ class Imagenes {
             $min_anc= $this->minAnc;
             $min_alt= $this->minAlt;
         }
-        switch ($img_tipo){
-            case "image/jpg":
-            case "image/jpeg":
-                $imagen= imagecreatefromjpeg($rutaImg);
-            break;
-            case "image/png":
-                $imagen= imagecreatefrompng($rutaImg);
-            break;
-            case "image/gif":
-                $imagen= imagecreatefromgif($rutaImg);
-            break;
-        }
-        $lienzo= imagecreatetruecolor($min_alt, $min_anc);
-        imagecopyresampled($lienzo, $imagen,0, 0, 0, 0, $min_anc,$min_alt,$img_ancho, $img_alto);
-        switch ($img_tipo){
-            case "image/jpg":
-            case "image/jpeg":
-                imagejpeg($lienzo, $this->ruta.$this->RutaImagenSmall.$this->hashNombre, 90);
-            break;
-            case "image/png":
-                imagepng($lienzo, $this->ruta.$this->RutaImagenSmall.$this->hashNombre, 90);
-            break;
-            case "image/gif":
-                imagegif($lienzo, $this->ruta.$this->RutaImagenSmall.$this->hashNombre);
-            break;
-        }
+        $imagen= \WideImage\WideImage::load($rutaImg);//se crea la imagen
+        $resized=$imagen->resize($min_anc, $min_alt);//se redimenciona la imagen
+        $resized->saveToFile($this->ruta.$this->RutaImagenSmall.$this->hashNombre);//se guarda el archivo
     }
     /**
      * Metodo que sirve para eliminar una imagen, pasando unicamente nombre con hash, de la imagen
