@@ -26,7 +26,7 @@ class SessionLogin extends \Zaphpa\BaseMiddleware{
         //cargar paths
         $this->cargarPaths();
         //mandamos a llamar metodo login
-        //$this->procesoLogin($redirect_after_login, $req, $res);
+        $this->procesoLogin($redirect_after_login, $req, $res);
         return true;
     }
     public function prerender(&$buffer) {
@@ -41,73 +41,40 @@ class SessionLogin extends \Zaphpa\BaseMiddleware{
      */
     private function procesoLogin($path,$req,$res){
         global $spot;//se obtiene spot
-        $usuarioMapper=$spot->mapper("Entity\Usuarios");//se obtiene dao de tabla
+        $usuarioMapper=$spot->mapper("Entity\Administradores");//se obtiene dao de tabla
         global $session_handle;//se obtiene handeler de sesiones
         $session=$session_handle->getSegment("Tornado\Session");//se obtiene la sesion
         //si la uri esta en las publicas lo dejamos de otra manera vemos sesion y login
-        if(!in_array(self::$context[pattern], $this->urlPublicas)){
+        if(!in_array(self::$context["pattern"], $this->urlPublicas)){
             //si el usuario no esta logueado lo mandamos a loguear
             if(!$session->get("user",false)){
-                header("Location: http://".$_SERVER["SERVER_NAME"].$path."/login?redirect=".$path.self::$context["request_uri"]);
+                header("Location: http://".$_SERVER["SERVER_NAME"]."/login?redirect=".self::$context["request_uri"]);
                 die();
             }
             else{
                 //se obtiene la sesion
                 $req->user=$session->get("user");
-                //se obtiene el id del rol
-                $rol=$session->get("user")["rol"];
-                //se obtiene el status del usuario
-                $status=$session->get("user")["status"];
-                if(status){
-                    if($rol==1&&in_array(self::$context["pattern"], $this->urlAdmin)){
-                        $session->set("user", $req->user);
-                    }
-                    else{
-                        switch ($rol){
-                            case 1:
-                                $aux="/admin";
-                            break;
-                        }
-                        $session->set("user",$req->user);
-                        header('Location:http://'.$_SERVER["SERVER_NAME"].$aux);
-                    }
-                }
-                else{
-                    $session_handle->destroy();
-                    header("Location:/");
+                $session->set("user",$req->user);
+                if(!in_array(self::$context["pattern"], $this->urlAdmin)){
+                    header('Location:/admin');
                 }
             }
         }
         //si el pattern es login
         if(self::$context["request_uri"]=="/login"){
-            if ($session->get("user", false)) {
-                $rol=$session->get("user")["rol_id"];
-                $aux="";
-                switch ($rol){
-                    case 1:
-                        $aux="/admin";
-                    break;
-                }
-                header('Location:'.$aux);
-            }
             if(isset($req->data["user"],$req->data["pass"])){
                 $username=$req->data["user"];
                 $password=$req->data["pass"];
-                $user=$usuarioMapper->where(["usuario"=>$username])->first();
+                $user=$usuarioMapper->where(["user"=>$username])->first();
                 if($user){
-                    if($user->password=md5($password)&&$user->status===true){
+                    if($user->password==md5($password)){
                         $user=$user->toArray();
                         $session->set("user",$user);
                         if(isset($req->data["redirect"])){
                             header("Location: http://" . $_SERVER["SERVER_NAME"] . $req->data["redirect"]);
                         }
                         else{
-                            $aux="";
-                            switch ($user["rol_id"]){
-                                case 1:
-                                    $aux="/admin";
-                                break;
-                            }
+                            $aux="/admin";
                             header("Location:".$aux);
                         }
                     }else{
@@ -139,12 +106,12 @@ class SessionLogin extends \Zaphpa\BaseMiddleware{
         foreach ($ROUTES as $key => $route){
             $route["allow"]=isset($route["allow"])?$route["allow"]:false;
             if($route["allow"]==true){
-                array_push($this->urlPublicas, self::$context["pattern"]);
+                array_push($this->urlPublicas, $route["path"]);
             }
             $route["rol"]=isset($route["rol"])?$route["rol"]:"";
             switch ($route["rol"]){
                 case 'admin':
-                    array_push($this->urlAdmin, self::$context["pattern"]);
+                    array_push($this->urlAdmin, $route["path"]);
                 break;
             }
         }
