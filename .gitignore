@@ -4,3 +4,5 @@
 composer.lock
 /tornado/config.php
 /tornado/mail_config.php
+#ingnorando intel del sublime
+.phpintel/
