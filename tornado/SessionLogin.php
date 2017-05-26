@@ -79,11 +79,11 @@ class SessionLogin extends \Zaphpa\BaseMiddleware{
                         }
                     }else{
                         $session_controller = $session_handle->getSegment('Tornado\Controllers');
-                        $session_controller->setFlash("alert", ["message" => "El password y el usuario no coinciden!", "status" => "Error:", "class" => "alert-danger"]);
+                        $session_controller->setFlashNow("alert", ["message" => "El password y el usuario no coinciden!", "status" => "Error:", "class" => "alert-danger"]);
                     }
                 }else{
                     $session_controller = $session_handle->getSegment('Tornado\Controllers');
-                        $session_controller->setFlash("alert", ["message" => "El password y el usuario no coinciden!", "status" => "Error:", "class" => "alert-danger"]);
+                        $session_controller->setFlashNow("alert", ["message" => "El password y el usuario no coinciden!", "status" => "Error:", "class" => "alert-danger"]);
                 }
             }
         }
