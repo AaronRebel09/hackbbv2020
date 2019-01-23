@@ -26,7 +26,7 @@ class SessionLogin extends \Zaphpa\BaseMiddleware{
         //cargar paths
         $this->cargarPaths();
         //mandamos a llamar metodo login
-        $this->procesoLogin($redirect_after_login, $req, $res);
+        //$this->procesoLogin($redirect_after_login, $req, $res);
         return true;
     }
     public function prerender(&$buffer) {

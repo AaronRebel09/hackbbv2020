@@ -3,7 +3,7 @@
     require_once (__DIR__."/../Mustache.php");
     require_once (__DIR__."/../documentor.php");
     require_once (__DIR__."/../SessionLogin.php");
-    require_once (__DIR__."/../migrator .php");
+    require_once (__DIR__."/../migrator.php");
     require_once (__DIR__."/../oauth.php");
     //inicializacion de router
     $router=new \Zaphpa\Router();
