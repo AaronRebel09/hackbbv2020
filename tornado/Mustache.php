@@ -14,7 +14,7 @@ class Mustache extends \Zaphpa\BaseMiddleware {
     public function preroute(&$req, &$res) {
         $mustache=new \Mustache_Engine(array(
             'template_class_prefix' => '__MyTemplates_',
-            'cache' => __TOR__.'/tmp/cache/mustache',
+            //'cache' => __TOR__.'/tmp/cache/mustache',
             'loader' => new \Mustache_Loader_FilesystemLoader(__TOR__.'/views/'),
             'partials_loader' => new \Mustache_Loader_FilesystemLoader(__TOR__.'/views/partials'),
             'strict_callables'=>true,
