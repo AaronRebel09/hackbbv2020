@@ -7,11 +7,16 @@
 //    ]  
 global $ROUTES;
 $ROUTES=[
-    "/home"=>[
-        'path'=>'/',
+    "/api/getMaxDataByDay"=>[
+        'path'=>'/api/getMaxDataByDay',
+        'allow'=>true,
+        'get'=>array('Api','getMaxDataByDay')
+    ],
+    "/csv"=>[
+        'path'=>'/csv',
         'allow'=>true,
         'get'=>array('Plain','home')
-    ]  
+    ],  
 ];
 foreach ($ROUTES as $key => $route) {
     $router->addRoute($route);

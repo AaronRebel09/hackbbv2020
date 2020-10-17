@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "pruebas-memo-285403",
+  "private_key_id": "860e2641f51d2fd631415230fc45757b3c8962df",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCtz98EWgoKoE3v\ne7BzUvyGMCm3gQ0Hv1sDtHFbUq9gWUn2IaibBUBpbQm6eKRPFmAsZnoNG6ocb65Y\n6g4RCSU0fUoGllUnse4HOxnNpmhzfAJgHl9XaoBLFruTSDJV8YW3CyuEbxady/HY\nsQPAGakolH9mGTiCbqZl2d+uDLoYEZ3CiJfNmGlp4MPc5B1ECJfCC5taLlJEI7aB\nyYiOSsGeQHX4744a5sfFHKdYEo75KB3JuH/3J1pvQWYmNkZCi3/Iu4E3ofIduj1W\nF6YkAyJlP9Ch6f+VvuGQrq6P3j/Xijk04q2UAlX3eZLvURnta6Y6Zn6Vb48xDSWy\nHmKEcANXAgMBAAECggEACqP3gWd7IgiwI5YBrUf8puWCEEjFAczFFPro4DS1k2Mz\n9koXWz/c+64gG9bwvCJzCl3zYP9WouIFZk44sl/cc91iQfkfECf44xYB775BupME\nj6Oupc9HOKPeIWm9Io8R1JqkqwJ/++BQu943ecY4YqTOWTyKdJWy0x1CFFveYqAC\ncXAEX4chMtBAIaTY9IKy6m6WCN+pv/FolBzASE7ytFuv9PEWwaL5IYCo61EiMnC/\nDNqeS+cNAzPJXWwmp7KuGmZ1aFwPuUfFuitR9uwkaR4mgzSbHZrSr43z7/rdyo0R\nkMfxzyxuu1vhZQiTSt0UvbVFWqJSd62qicjcnUp8fQKBgQDf9C3QU4vw/oRKFij3\nRj8C/EmhfNREY5d5gQogAP57Xu6UuzFrgA88Mf5i0zn2YGPzrj+2dvcEoJayptFZ\nAakhFTA56tOD27s63b/5nITLK/cLR/jC8p/R9SP1HtTaAruO5Od2MJca8EZdA6TN\n8/A++TwA4QKVjQp+Ta7h9ky3lQKBgQDGrujA86y0Kj1o15da8BPFZ1Tq5lqvNR1N\nmcOlB0rMATElD2y6HpSgRKAqllXGuYx2EEygmCKtPBPVUzTiSchA45d4CH0ie556\nRbQlKh9sk/8OTlzjCcFEri7cRDcjt+cAGPJeY9PKJwO57OoletGVEELpYZ/Rkvlw\nKA2BQ/3kOwKBgQCEbx4EetNfcPMD6LTS/TxX5J8aGvpfctFpbbByGoRiqlHFrCje\nXD0mKJ45DJXTJ08UE+/jU9hhaSGUhed4je3Y/XGmXkI0UGUYu3dCAZfZmaceibIG\nfnmaLC/WTSQrw7/sEVr63mMM8Bd7+6Kik+V3J+We03C2xU/2PrPzNbZKPQKBgGJl\ns34D8E9V8A3hX+M4rQIB1+tx5A2Lp5SMB3nOr7tzB6zMA9P1WzQ4aH5O7/I4aJj8\nH4cVcW8MJuJqj/FWCygfzx8yTQ7r3CPAK6SQRPnYHeQu6Q/EAASMo0aRPiGhbXT9\n5eLbW8NtKQpGi/u95NgHMqw0nhsDyCdEntObIb2LAoGAVRqeqavXUP3H+N3Ri693\nXz/uWmYswrTe1pC9C6ykIkkDAVbtH5Q3dAkfqyHtaU90raBpcxV2Uipkzqh+bnb/\nKcUoVfmHVW1LnUzwqxtaP6M7ysyTBs1ELWJEBspOYqq1pl+tqWcADnLrP9UWsL9A\nvp0W7/BT0q+8Ult3bcNvJXk=\n-----END PRIVATE KEY-----\n",
+  "client_email": "escalonatext@pruebas-memo-285403.iam.gserviceaccount.com",
+  "client_id": "115157683044267102878",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/escalonatext%40pruebas-memo-285403.iam.gserviceaccount.com"
+}

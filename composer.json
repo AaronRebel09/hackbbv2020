@@ -8,6 +8,7 @@
         "aura/session": "^2.0",
         "phpmailer/phpmailer": "~5.2",
         "bshaffer/oauth2-server-php": "~1.8",
-        "smottt/wideimage":"dev-master"
+        "smottt/wideimage":"dev-master",
+        "google/cloud-language": "^0.24.2"
     }
 }
