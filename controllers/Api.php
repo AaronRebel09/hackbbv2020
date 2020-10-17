@@ -52,7 +52,7 @@ class Api extends Tornado\Controller{
         $banks=$mapper->query("select distinct cuenta from getTweetData")->toArray();
         foreach ($banks as $key => $banco) {
             $auxbanco=[];
-            $data=$mapper->query("select * from getWorstComments where vectorSentimiento<0 and cuenta='".$banco["cuenta"]."'")->toArray();
+            $data=$mapper->query("select * from getWorstComments where vectorSentimiento<0 and cuenta='".$banco["cuenta"]."' limit 10")->toArray();
             foreach ($data as $key => $value) {
                 $aux=[];
                 $aux["query"]=str_replace("@","",$value["cuenta"]);
@@ -79,7 +79,7 @@ class Api extends Tornado\Controller{
         $banks=$mapper->query("select distinct cuenta from getTweetData")->toArray();
         foreach ($banks as $key => $banco) {
             $auxbanco=[];
-            $data=$mapper->query("select * from getWorstComments where vectorSentimiento>0 and cuenta='".$banco["cuenta"]."' order by vectorSentimiento desc,rt desc,fav desc")->toArray();
+            $data=$mapper->query("select * from getWorstComments where vectorSentimiento>0 and cuenta='".$banco["cuenta"]."' order by vectorSentimiento desc,rt desc,fav desc limit 10")->toArray();
             foreach ($data as $key => $value) {
                 $aux=[];
                 $aux["query"]=str_replace("@","",$value["cuenta"]);
