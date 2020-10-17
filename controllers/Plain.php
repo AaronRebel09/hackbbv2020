@@ -17,25 +17,39 @@ require 'utilerias/Imagenes.php';
 class Plain extends Tornado\Controller{
     public function home($req,$res) {
     	$mapper=$this->spot->mapper("Entity\Tweet");
-    	$data=$this->leerCsv(__TOR__.'/resources/etl.csv');
-    	foreach ($data as $key => $tweet) {
-    		if($key!=0){
-    			$data[$key][2]=$this->limpiarCadena($data[$key][2]);	
-    			$data[$key][6]=$this->analizarCadena($data[$key][2]);
-    			$formato = 'Y-m-d H:i:s';
-				$fecha = DateTime::createFromFormat($formato,$data[$key][1]);
-    			$mapper->create([
-    				'fecha'                => $fecha,
-                	'texto'                => utf8_encode($data[$key][2]),
-                	'src'                   => $data[$key][3],
-                	'rt'                    => $data[$key][4],
-                	'fav'                   => $data[$key][5],
-                	'sentimiento'           => $data[$key][6]['score'],
-                	'magnitud'           	=> $data[$key][6]['magnitude'],
-                	'cuenta'                 => "@BBVA"
-    			]);
-    		}
-    	}
+    	$data=$this->leerCsv(__TOR__.'/resources/etl2.csv');
+        try{
+            foreach ($data as $key => $tweet) {
+        		if($key!=0){
+        			$data[$key][3]=$this->limpiarCadena($data[$key][3]);	
+        			$aux=$this->analizarCadena($data[$key][3]);
+                    //$aux=["score"=>0,"magnitude"=>0];
+        			$formato = 'Y-m-d H:i:s';
+    				$fecha = DateTime::createFromFormat($formato,$data[$key][2]);
+                    $fecha2 = DateTime::createFromFormat($formato,$data[$key][10]);
+                    $arr=[
+                        'fecha'                => $fecha,
+                        'texto'                => utf8_encode($data[$key][3]),
+                        'src'                   => $data[$key][4],
+                        'rt'                    => intval($data[$key][5]),
+                        'fav'                   => intval($data[$key][6]),
+                        'sentimiento'           => $aux['score'],
+                        'magnitud'              => $aux['magnitude'],
+                        'cuenta'                => $data[$key][1],
+                        'country'               => $data[$key][7],
+                        'type'                  => $data[$key][8],
+                        'place'                 => $data[$key][9],
+                        'desde'                 => $fecha2,
+                        'sigue_a'               => intval($data[$key][11]),
+                        'lo_siguen'             => intval($data[$key][12])];
+                    $mapper->create($arr);
+        		}
+        	}
+        }
+        catch (\Exception $e){
+            $this->pr($e);
+            exit;
+        }
     }
 
 

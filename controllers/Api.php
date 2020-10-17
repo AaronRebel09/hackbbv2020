@@ -23,7 +23,7 @@ class Api extends Tornado\Controller{
     	$data=$mapper->query("select * from getTweetData")->toArray();
     	foreach ($data as $key => $value) {
     		$aux=[];
-    		$aux["query"]=str_replace("@","",$value["cuenta"]);
+    		$aux["query"]=strtolower(str_replace("@","",$value["cuenta"]));
     		$aux["promedioRT"]=$value["avg_rt"];
     		$aux["promedioFV"]=$value["avg_fv"];
     		$aux["maxRT"]=$value["max_rt"];
@@ -55,7 +55,7 @@ class Api extends Tornado\Controller{
         echo json_encode($array);
     }
     /**
-    * Get WorstCOmments
+    * Get BestComments
     */
     public function getBestComments($req,$res) {
         $array=[];
