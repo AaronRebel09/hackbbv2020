@@ -98,4 +98,21 @@ class Api extends Tornado\Controller{
         header('Content-Type: application/json');
         echo json_encode($array);
     }
+
+    public function getSentimentOverview($req,$res){
+        $array=[];
+        $mapper=$this->spot->mapper("Entity\Tweet");
+        $overView=$mapper->query("select * from getSentimentOverview")->toArray();
+        foreach ($overView as $key => $value) {
+            $aux=[];
+            $aux["cuenta"]=$value["cuenta"];
+            $aux["porcentage_neutral"]=($value["neutral"]*100)/$value["total"];
+            $aux["porcentage_positivo"]=($value["positivo"]*100)/$value["total"];
+            $aux["porcentage_negativo"]=($value["negativo"]*100)/$value["total"];
+            array_push($array, $aux);
+        }
+        header('Content-Type: application/json');
+        echo json_encode($array);
+        
+    }
 }
