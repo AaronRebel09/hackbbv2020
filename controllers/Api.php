@@ -31,10 +31,11 @@ class Api extends Tornado\Controller{
     		$aux["fecha"]=$value["fecha"];
     		array_push($array,$aux);
     	}
+        header('Content-Type: application/json');
     	echo json_encode($array);
     }
     /**
-    * Get MaxDataByDate
+    * Get WorstCOmments
     */
     public function getWorstComments($req,$res) {
         $array=[];
@@ -50,6 +51,27 @@ class Api extends Tornado\Controller{
             $aux["fav"]=$value["fav"];
             array_push($array,$aux);
         }
+        header('Content-Type: application/json');
+        echo json_encode($array);
+    }
+    /**
+    * Get WorstCOmments
+    */
+    public function getBestComments($req,$res) {
+        $array=[];
+        $mapper=$this->spot->mapper("Entity\Tweet");
+        $data=$mapper->query("select * from getWorstComments where vectorSentimiento>0 order by vectorSentimiento desc,rt desc,fav desc")->toArray();
+        foreach ($data as $key => $value) {
+            $aux=[];
+            $aux["query"]=str_replace("@","",$value["cuenta"]);
+            $aux["vectorSentimiento"]=$value["vectorSentimiento"];
+            $aux["fecha"]=$value["fecha"];
+            $aux["texto"]=$value["texto"];
+            $aux["rt"]=$value["rt"];
+            $aux["fav"]=$value["fav"];
+            array_push($array,$aux);
+        }
+        header('Content-Type: application/json');
         echo json_encode($array);
     }
 }
