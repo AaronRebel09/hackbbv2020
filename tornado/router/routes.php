@@ -12,6 +12,11 @@ $ROUTES=[
         'allow'=>true,
         'get'=>array('Api','getMaxDataByDay')
     ],
+    "/api/getWorstComments"=>[
+        'path'=>'/api/getWorstComments',
+        'allow'=>true,
+        'get'=>array('Api','getWorstComments')
+    ],
     "/csv"=>[
         'path'=>'/csv',
         'allow'=>true,
