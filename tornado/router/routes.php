@@ -17,6 +17,11 @@ $ROUTES=[
         'allow'=>true,
         'get'=>array('Plain','home')
     ],  
+    "/"=>[
+        'path'=>'/',
+        'allow'=>true,
+        'get'=>array('Dashboard','home')
+    ],
 ];
 foreach ($ROUTES as $key => $route) {
     $router->addRoute($route);
