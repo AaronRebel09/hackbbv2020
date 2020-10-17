@@ -36,12 +36,16 @@ function configRetweetDiario() {
 
 function updateRetweetDiario() {
 	fetch('/api/getMaxDataByDay').then(j=>j.json()).then(data => {
-		console.log(data);
-		let labels = data.map(element=>{
-			let d = new Date(element.fecha.date)
-			return d.getDate()+"-"+d.getMonth()+"-"+d.getFullYear();
-		});
+		let bbvaData = data.filter(element=>element.query == 'bbva')
+		let labels = bbvaData.map(element=>formatDate(new Date(element.fecha.date)));
 		let bbvaDataset = data.map(element=>element.promedioRT)
+		let bancos = []
+		data.forEach(element=>{
+			if (!bancos.includes(element.query)) {
+				bancos.push(element.query)
+			}
+		})
+		console.log(bancos);
 		var areaChartData = {
 			labels,
 			datasets: [
@@ -72,4 +76,8 @@ function updateRetweetDiario() {
 		retweetDiarioChart.data = areaChartData
 		retweetDiarioChart.update()
 	})
+}
+
+function formatDate(date) {
+	return date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear()
 }
