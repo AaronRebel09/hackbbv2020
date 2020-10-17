@@ -17,6 +17,11 @@ $ROUTES=[
         'allow'=>true,
         'get'=>array('Api','getWorstComments')
     ],
+    "/api/getBestComments"=>[
+        'path'=>'/api/getBestComments',
+        'allow'=>true,
+        'get'=>array('Api','getBestComments')
+    ],
     "/csv"=>[
         'path'=>'/csv',
         'allow'=>true,
