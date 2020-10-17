@@ -20,17 +20,26 @@ class Api extends Tornado\Controller{
     public function getMaxDataByDay($req,$res) {
     	$array=[];
     	$mapper=$this->spot->mapper("Entity\Tweet");
-    	$data=$mapper->query("select * from getTweetData")->toArray();
-    	foreach ($data as $key => $value) {
-    		$aux=[];
-    		$aux["query"]=strtolower(str_replace("@","",$value["cuenta"]));
-    		$aux["promedioRT"]=$value["avg_rt"];
-    		$aux["promedioFV"]=$value["avg_fv"];
-    		$aux["maxRT"]=$value["max_rt"];
-    		$aux["maxFV"]=$value["max_fv"];
-    		$aux["fecha"]=$value["fecha"];
-    		array_push($array,$aux);
-    	}
+    	
+    	$banks=$mapper->query("select distinct cuenta from getTweetData")->toArray();
+        
+        foreach ($banks as $key => $banco) {
+            $auxbanco=[];
+            $data=$mapper->query("select * from getTweetData where cuenta='".$banco["cuenta"]."'")->toArray();    
+            $auxbanco[$banco["cuenta"]]=[];
+            foreach ($data as $key => $value) {
+                $aux=[];
+                $aux["promedioRT"]=$value["avg_rt"];
+                $aux["promedioFV"]=$value["avg_fv"];
+                $aux["maxRT"]=$value["max_rt"];
+                $aux["maxFV"]=$value["max_fv"];
+                $aux["fecha"]=$value["fecha"];
+                array_push($auxbanco[$banco["cuenta"]],$aux);
+            }
+            array_push($array, $auxbanco);
+        }
+
+        
         header('Content-Type: application/json');
     	echo json_encode($array);
     }
