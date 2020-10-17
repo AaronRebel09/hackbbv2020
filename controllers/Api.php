@@ -33,4 +33,23 @@ class Api extends Tornado\Controller{
     	}
     	echo json_encode($array);
     }
+    /**
+    * Get MaxDataByDate
+    */
+    public function getWorstComments($req,$res) {
+        $array=[];
+        $mapper=$this->spot->mapper("Entity\Tweet");
+        $data=$mapper->query("select * from getWorstComments where vectorSentimiento<0")->toArray();
+        foreach ($data as $key => $value) {
+            $aux=[];
+            $aux["query"]=str_replace("@","",$value["cuenta"]);
+            $aux["vectorSentimiento"]=$value["vectorSentimiento"];
+            $aux["fecha"]=$value["fecha"];
+            $aux["texto"]=$value["texto"];
+            $aux["rt"]=$value["rt"];
+            $aux["fav"]=$value["fav"];
+            array_push($array,$aux);
+        }
+        echo json_encode($array);
+    }
 }
