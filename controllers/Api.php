@@ -20,17 +20,26 @@ class Api extends Tornado\Controller{
     public function getMaxDataByDay($req,$res) {
     	$array=[];
     	$mapper=$this->spot->mapper("Entity\Tweet");
-    	$data=$mapper->query("select * from getTweetData")->toArray();
-    	foreach ($data as $key => $value) {
-    		$aux=[];
-    		$aux["query"]=strtolower(str_replace("@","",$value["cuenta"]));
-    		$aux["promedioRT"]=$value["avg_rt"];
-    		$aux["promedioFV"]=$value["avg_fv"];
-    		$aux["maxRT"]=$value["max_rt"];
-    		$aux["maxFV"]=$value["max_fv"];
-    		$aux["fecha"]=$value["fecha"];
-    		array_push($array,$aux);
-    	}
+    	
+    	$banks=$mapper->query("select distinct cuenta from getTweetData")->toArray();
+        
+        foreach ($banks as $key => $banco) {
+            $auxbanco=[];
+            $data=$mapper->query("select * from getTweetData where cuenta='".$banco["cuenta"]."'")->toArray();    
+            //$auxbanco[$banco["cuenta"]]=[];
+            foreach ($data as $key => $value) {
+                $aux=[];
+                $aux["promedioRT"]=$value["avg_rt"];
+                $aux["promedioFV"]=$value["avg_fv"];
+                $aux["maxRT"]=$value["max_rt"];
+                $aux["maxFV"]=$value["max_fv"];
+                $aux["fecha"]=$value["fecha"];
+                array_push($auxbanco,$aux);
+            }
+            $array=array_merge($array, [$banco["cuenta"]=>$auxbanco]);
+        }
+
+        
         header('Content-Type: application/json');
     	echo json_encode($array);
     }
@@ -40,17 +49,24 @@ class Api extends Tornado\Controller{
     public function getWorstComments($req,$res) {
         $array=[];
         $mapper=$this->spot->mapper("Entity\Tweet");
-        $data=$mapper->query("select * from getWorstComments where vectorSentimiento<0")->toArray();
-        foreach ($data as $key => $value) {
-            $aux=[];
-            $aux["query"]=str_replace("@","",$value["cuenta"]);
-            $aux["vectorSentimiento"]=$value["vectorSentimiento"];
-            $aux["fecha"]=$value["fecha"];
-            $aux["texto"]=$value["texto"];
-            $aux["rt"]=$value["rt"];
-            $aux["fav"]=$value["fav"];
-            array_push($array,$aux);
+        $banks=$mapper->query("select distinct cuenta from getTweetData")->toArray();
+        foreach ($banks as $key => $banco) {
+            $auxbanco=[];
+            $data=$mapper->query("select * from getWorstComments where vectorSentimiento<0 and cuenta='".$banco["cuenta"]."'")->toArray();
+            foreach ($data as $key => $value) {
+                $aux=[];
+                $aux["query"]=str_replace("@","",$value["cuenta"]);
+                $aux["vectorSentimiento"]=$value["vectorSentimiento"];
+                $aux["fecha"]=$value["fecha"];
+                $aux["texto"]=$value["texto"];
+                $aux["rt"]=$value["rt"];
+                $aux["fav"]=$value["fav"];
+                array_push($auxbanco,$aux);
+            }
+            $array=array_merge($array, [$banco["cuenta"]=>$auxbanco]);
         }
+        
+        
         header('Content-Type: application/json');
         echo json_encode($array);
     }
@@ -60,17 +76,25 @@ class Api extends Tornado\Controller{
     public function getBestComments($req,$res) {
         $array=[];
         $mapper=$this->spot->mapper("Entity\Tweet");
-        $data=$mapper->query("select * from getWorstComments where vectorSentimiento>0 order by vectorSentimiento desc,rt desc,fav desc")->toArray();
-        foreach ($data as $key => $value) {
-            $aux=[];
-            $aux["query"]=str_replace("@","",$value["cuenta"]);
-            $aux["vectorSentimiento"]=$value["vectorSentimiento"];
-            $aux["fecha"]=$value["fecha"];
-            $aux["texto"]=$value["texto"];
-            $aux["rt"]=$value["rt"];
-            $aux["fav"]=$value["fav"];
-            array_push($array,$aux);
+        $banks=$mapper->query("select distinct cuenta from getTweetData")->toArray();
+        foreach ($banks as $key => $banco) {
+            $auxbanco=[];
+            $data=$mapper->query("select * from getWorstComments where vectorSentimiento>0 and cuenta='".$banco["cuenta"]."' order by vectorSentimiento desc,rt desc,fav desc")->toArray();
+            foreach ($data as $key => $value) {
+                $aux=[];
+                $aux["query"]=str_replace("@","",$value["cuenta"]);
+                $aux["vectorSentimiento"]=$value["vectorSentimiento"];
+                $aux["fecha"]=$value["fecha"];
+                $aux["texto"]=$value["texto"];
+                $aux["rt"]=$value["rt"];
+                $aux["fav"]=$value["fav"];
+                array_push($auxbanco,$aux);
+            }
+            $array=array_merge($array, [$banco["cuenta"]=>$auxbanco]);
+
         }
+        
+        
         header('Content-Type: application/json');
         echo json_encode($array);
     }
