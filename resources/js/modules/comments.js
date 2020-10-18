@@ -12,11 +12,11 @@ $(()=>{
 
 
 function listener() {
-	$('body').on('click', 'nav-tabs .nav-item', function(e) {
+	$('body').on('click', '.nav-tabs .nav-item', function(e) {
 		e.preventDefault()
 		let elmento=$(this)
 		let bancoSelect=elmento.find('a').attr('data-bank')
-		$('body nav-tabs .nav-item a').removeClass('active')
+		$('body .nav-tabs .nav-item a').removeClass('active')
 		elmento.find('a').addClass('active')
 		banco=bancoSelect
 		obtenerTablaBanco(bancoSelect)

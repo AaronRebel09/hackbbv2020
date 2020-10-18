@@ -23,6 +23,7 @@
                 'desde'                 => ['type' => 'datetime','required'=>false],
                 'sigue_a'               => ['type' => 'integer','required'=>false],
                 'lo_siguen'             => ['type' => 'integer','required'=>false],
+                'palabras'             => ['type' => 'string','required'=>false],
             ];
         }
     }

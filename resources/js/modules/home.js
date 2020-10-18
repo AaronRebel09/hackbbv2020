@@ -1,3 +1,8 @@
+const randomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+const randomByte = () => randomNumber(0, 255)
+const randomPercent = () => (randomNumber(50, 100) * 0.01).toFixed(2)
+const randomCssRgba = () => `rgba(${[randomByte(), randomByte(), randomByte(), randomPercent()].join(',')})`
+
 $(()=>{
 	configRetweetDiario()
 	configFavDiario()
@@ -41,6 +46,8 @@ function updateRetweetDiario() {
 		let bbvaData = data.bbva
 		let labels = bbvaData.map(element=>formatDate(new Date(element.fecha.date)));
 		let bbvaDataset = bbvaData.map(element=>element.promedioRT)
+		
+
 		let datasets = Object.entries(data).map((element,index)=>({
 			label               : element[0],
 			backgroundColor     : index == 0 ? 'rgba(60,141,188,0.5)' : index == 1 ? 'rgba(188, 60, 141, 0.5)' : 'rgba(141, 188, 60, 0.5)',
