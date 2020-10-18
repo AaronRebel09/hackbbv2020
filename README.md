@@ -1,3 +1,13 @@
+Twitter API Social Listening
+Team : indigoSquad Proyecto: NATA
+Integrantes :¶
+    * Azucena Sánchez
+    * Arturo Ventura
+    * Aaron Téllez
+    * Evelyn Hernández        
+    * Guillermo Villafuerte                
+    * Guillermo Escalona
+
 # **Tornado**
 
 Created with:
