@@ -105,7 +105,29 @@ class Api extends Tornado\Controller{
     public function getSentimentOverview($req,$res){
         $array=[];
         $mapper=$this->spot->mapper("Entity\Tweet");
-        $overView=$mapper->query("select * from getSentimentOverview ")->toArray();
+        $banks=$mapper->query("select distinct cuenta from getTweetData")->toArray();
+        foreach ($banks as $key => $banco) {
+            $queryNeutral="select count(*) as neutral from tweets where sentimiento=0 and cuenta='".$banco["cuenta"]."'";
+            $dataNeutral=$mapper->query($queryNeutral)->first()->toArray();
+            
+            $queryPositivo="select count(*) as positivo from tweets where sentimiento>0 and cuenta='".$banco["cuenta"]."'";
+            $dataPost=$mapper->query($queryPositivo)->first()->toArray();
+            
+            $queryNegativo="select count(*) as negativo from tweets where sentimiento<0 and cuenta='".$banco["cuenta"]."'";
+            $dataNeg=$mapper->query($queryNegativo)->first()->toArray();
+            
+            $queryTotal="select count(*) as total from tweets where cuenta='".$banco["cuenta"]."'";
+            $dataTot=$mapper->query($queryTotal)->first()->toArray();
+            
+            $aux=[];
+            $aux["cuenta"]=$banco["cuenta"];
+            $aux["porcentage_neutral"]=round(($dataNeutral["neutral"]*100)/$dataTot["total"]);
+            $aux["porcentage_positivo"]=round(($dataPost["positivo"]*100)/$dataTot["total"]);
+            $aux["porcentage_negativo"]=round(($dataNeg["negativo"]*100)/$dataTot["total"]);
+            array_push($array, $aux);
+
+        }
+        /*$overView=$mapper->query("select * from getSentimentOverview ")->toArray();
         foreach ($overView as $key => $value) {
             $aux=[];
             $aux["cuenta"]=$value["cuenta"];
@@ -113,7 +135,7 @@ class Api extends Tornado\Controller{
             $aux["porcentage_positivo"]=round(($value["positivo"]*100)/$value["total"]);
             $aux["porcentage_negativo"]=round(($value["negativo"]*100)/$value["total"]);
             array_push($array, $aux);
-        }
+        }*/
         $res->m = $res->mustache->loadTemplate("utils/chart.mustache");
         echo $this->renderView($res,["overView"=>$array]);
     }

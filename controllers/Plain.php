@@ -16,7 +16,7 @@ require 'utilerias/Imagenes.php';
  */
 class Plain extends Tornado\Controller{
     public function home($req,$res) {
-    	$diccionario = ["cuenta","clabe","pin", "tarjeta", "tc ", "tdc", "retiro", "cajeros", "ejecutivo", "sucursal",
+    	$diccionario = ["cuenta","clabe","pin", "tarjeta", "tc", "tdc", "retiro", "cajeros", "ejecutivo", "sucursal",
                "retuvo", "trabo", "practicaja", "llamada", "llamaron", "marcado", "cargo",
                "puntos", "condusefmx", "condusef", "pyme", "pandemia", "credito", "cliente",
                "endeudado", "spam", "comision", "colgaron", "transferencia", "spei", "anualidad", "descuento",
@@ -28,7 +28,7 @@ class Plain extends Tornado\Controller{
                "debito", "oferta", "ofrece", "queja", "lavado", "dinero", "efectivo", "robo", "roba", "extravio",
                "reembolso", "rembolso", "cuentahabiente", "inversion", "rendimiento", "intereses"];
         $mapper=$this->spot->mapper("Entity\Tweet");
-        $data=$mapper->select();
+        /*$data=$mapper->select();
         foreach ($data as $key => $value) {
             $texto_aux=strtolower(utf8_decode($value->texto));
             $texto_aux=str_replace("á", "a",$texto_aux);
@@ -39,7 +39,7 @@ class Plain extends Tornado\Controller{
             $texto_aux=preg_replace('/\s+/', ' ', $texto_aux);
             $aux="";
             foreach ($diccionario as $palabra) {
-                $pos = strpos($texto_aux, $palabra);
+                $pos = strpos($texto_aux, $palabra." ");
                 if($pos===false){
 
                 }else{
@@ -47,16 +47,17 @@ class Plain extends Tornado\Controller{
                 }
             }
             if($aux!=""){
-                $aux=substr($aux,0,strlen($aux)-1);    
+                $aux=substr($aux,0,strlen($aux)-1);
+                $aux=str_replace(",", ", ",$aux);    
             }else{
                 $aux="otro";
             }
             $value->palabras=$aux;
             $mapper->update($value);
-        }
+        }*/
 
 
-    	/*$data=$this->leerCsv(__TOR__.'/resources/etl5.csv');
+    	/*$data=$this->leerCsv(__TOR__.'/resources/etl7.csv');
         try{
             foreach ($data as $key => $tweet) {
 
@@ -64,7 +65,7 @@ class Plain extends Tornado\Controller{
                     
         			$data[$key][3]=$this->limpiarCadena($data[$key][3]);	
         			$aux=$this->analizarCadena($data[$key][3]);
-                    //$aux=["score"=>0,"magnitude"=>0];
+                    $aux=["score"=>0,"magnitude"=>0];
         			$formato = 'Y-m-d H:i:s';
                     //$data[$key][2]=$data[$key][2].":00";
                     //$data[$key][2]=str_replace("/","-",$data[$key][2]);
@@ -89,10 +90,10 @@ class Plain extends Tornado\Controller{
                         'desde'                 => $fecha2,
                         'sigue_a'               => intval($data[$key][12]),
                         'lo_siguen'             => intval($data[$key][13]),
-                        'palabras'             => $data[$key][7]
+                        'palabras'             => $data[$key][7]==""?"otro":$data[$key][7]
                     ];
                    $mapper->create($arr);
-                   echo "insertado ".$arr["texto"]."<br/>";
+                   //echo "insertado ".$arr["texto"]."<br/>";
                    //$this->pr($arr);
         		}
         	}
