@@ -70,6 +70,7 @@ class Api extends Tornado\Controller{
             $aux["vectorSentimiento"]= $value["vectorSentimiento"] <= -0.5 ? "fa-frown" : ($value["vectorSentimiento"] <= 0.3 ? "fa-meh" : "fa-smile-beam");
             $aux["fecha"]=$value["fecha"];
             $aux["texto"]=utf8_decode($value["texto"]);
+            $aux["tema"]=$value["palabras"];
             $aux["rt"]=$value["rt"];
             $aux["fav"]=$value["fav"];
             array_push($auxbanco,$aux);
@@ -91,6 +92,7 @@ class Api extends Tornado\Controller{
                  $aux["vectorSentimiento"]= $value["vectorSentimiento"] <= -0.4 ? "fa-frown" : ($value["vectorSentimiento"] <= 0.3 ? "fa-meh" : "fa-smile-beam");
                 $aux["fecha"]=$value["fecha"];
                 $aux["texto"]=utf8_decode($value["texto"]);
+                $aux["tema"]=$value["palabras"];
                 $aux["rt"]=$value["rt"];
                 $aux["fav"]=$value["fav"];
                 array_push($auxbanco,$aux);
