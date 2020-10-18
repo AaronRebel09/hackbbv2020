@@ -75,19 +75,17 @@ class Api extends Tornado\Controller{
             array_push($auxbanco,$aux);
         }
         $res->m = $res->mustache->loadTemplate("utils/tabla.mustache");
-        echo $this->renderView($res,["worstComments"=>$auxbanco,"banco"=>$req->data["banco"]]);
+        echo $this->renderView($res,["comments"=>$auxbanco,"banco"=>$req->data["banco"]]);
     }
     /**
     * Get BestComments
     */
     public function getBestComments($req,$res) {
-        $array=[];
+        
         $mapper=$this->spot->mapper("Entity\Tweet");
-        $banks=$mapper->query("select distinct cuenta from getTweetData")->toArray();
-        foreach ($banks as $key => $banco) {
-            $auxbanco=[];
-            $data=$mapper->query("select * from getWorstComments where vectorSentimiento>0 and cuenta='".$banco["cuenta"]."' order by vectorSentimiento desc,rt desc,fav desc limit 10")->toArray();
-            foreach ($data as $key => $value) {
+        $auxbanco=[];
+        $data=$mapper->query("select * from getWorstComments where vectorSentimiento>0 and cuenta='".$req->data["banco"]."' order by vectorSentimiento desc,rt desc,fav desc limit 10")->toArray();
+        foreach ($data as $key => $value) {
                 $aux=[];
                 $aux["query"]=str_replace("@","",$value["cuenta"]);
                 $aux["vectorSentimiento"]=$value["vectorSentimiento"];
@@ -96,14 +94,9 @@ class Api extends Tornado\Controller{
                 $aux["rt"]=$value["rt"];
                 $aux["fav"]=$value["fav"];
                 array_push($auxbanco,$aux);
-            }
-            $array=array_merge($array, [$banco["cuenta"]=>$auxbanco]);
-
         }
-        
-        
-        header('Content-Type: application/json');
-        echo json_encode($array);
+        $res->m = $res->mustache->loadTemplate("utils/tabla.mustache");
+        echo $this->renderView($res,["comments"=>$auxbanco,"banco"=>$req->data["banco"]]);
     }
 
     public function getSentimentOverview($req,$res){
