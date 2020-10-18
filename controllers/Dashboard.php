@@ -11,4 +11,5 @@ class Dashboard extends Tornado\Controller {
 
         echo $this->renderView($res);
     }
+
 }

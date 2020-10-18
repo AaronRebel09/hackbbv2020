@@ -22,7 +22,7 @@ class Api extends Tornado\Controller{
     	$mapper=$this->spot->mapper("Entity\Tweet");
     	
     	$banks=$mapper->query("select distinct cuenta from getTweetData")->toArray();
-        
+
         foreach ($banks as $key => $banco) {
             $auxbanco=[];
             $data=$mapper->query("select * from getTweetData where cuenta='".$banco["cuenta"]."'")->toArray();    
@@ -41,7 +41,7 @@ class Api extends Tornado\Controller{
 
         
         header('Content-Type: application/json');
-    	echo json_encode($array);
+        echo json_encode($array);
     }
 
 
@@ -67,7 +67,7 @@ class Api extends Tornado\Controller{
         foreach ($data as $key => $value) {
             $aux=[];
             $aux["query"]=str_replace("@","",$value["cuenta"]);
-            $aux["vectorSentimiento"]=$value["vectorSentimiento"];
+            $aux["vectorSentimiento"]= $value["vectorSentimiento"] <= -0.5 ? "fa-frown" : ($value["vectorSentimiento"] <= 0.3 ? "fa-meh" : "fa-smile-beam");
             $aux["fecha"]=$value["fecha"];
             $aux["texto"]=utf8_decode($value["texto"]);
             $aux["rt"]=$value["rt"];
@@ -81,19 +81,20 @@ class Api extends Tornado\Controller{
     * Get BestComments
     */
     public function getBestComments($req,$res) {
-        
+
         $mapper=$this->spot->mapper("Entity\Tweet");
         $auxbanco=[];
         $data=$mapper->query("select * from getWorstComments where vectorSentimiento>0 and cuenta='".$req->data["banco"]."' order by vectorSentimiento desc,rt desc,fav desc")->toArray();
         foreach ($data as $key => $value) {
                 $aux=[];
                 $aux["query"]=str_replace("@","",$value["cuenta"]);
-                $aux["vectorSentimiento"]=$value["vectorSentimiento"];
+                 $aux["vectorSentimiento"]= $value["vectorSentimiento"] <= -0.4 ? "fa-frown" : ($value["vectorSentimiento"] <= 0.3 ? "fa-meh" : "fa-smile-beam");
                 $aux["fecha"]=$value["fecha"];
                 $aux["texto"]=utf8_decode($value["texto"]);
                 $aux["rt"]=$value["rt"];
                 $aux["fav"]=$value["fav"];
                 array_push($auxbanco,$aux);
+
         }
         $res->m = $res->mustache->loadTemplate("utils/tabla.mustache");
         echo $this->renderView($res,["comments"=>$auxbanco,"banco"=>$req->data["banco"]]);
@@ -102,17 +103,16 @@ class Api extends Tornado\Controller{
     public function getSentimentOverview($req,$res){
         $array=[];
         $mapper=$this->spot->mapper("Entity\Tweet");
-        $overView=$mapper->query("select * from getSentimentOverview")->toArray();
+        $overView=$mapper->query("select * from getSentimentOverview ")->toArray();
         foreach ($overView as $key => $value) {
             $aux=[];
             $aux["cuenta"]=$value["cuenta"];
-            $aux["porcentage_neutral"]=($value["neutral"]*100)/$value["total"];
-            $aux["porcentage_positivo"]=($value["positivo"]*100)/$value["total"];
-            $aux["porcentage_negativo"]=($value["negativo"]*100)/$value["total"];
+            $aux["porcentage_neutral"]=round(($value["neutral"]*100)/$value["total"]);
+            $aux["porcentage_positivo"]=round(($value["positivo"]*100)/$value["total"]);
+            $aux["porcentage_negativo"]=round(($value["negativo"]*100)/$value["total"]);
             array_push($array, $aux);
         }
-        header('Content-Type: application/json');
-        echo json_encode($array);
-        
+        $res->m = $res->mustache->loadTemplate("utils/chart.mustache");
+        echo $this->renderView($res,["overView"=>$array]);
     }
 }
