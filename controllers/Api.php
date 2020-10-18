@@ -43,32 +43,39 @@ class Api extends Tornado\Controller{
         header('Content-Type: application/json');
     	echo json_encode($array);
     }
+
+
+
+    public function getBancks($req,$res){
+        $mapper=$this->spot->mapper("Entity\Tweet");
+        $banks=$mapper->query("select distinct cuenta from getTweetData")->toArray();
+        $auxbanco=[];
+        foreach ($banks as $key => $banco) {
+            array_push($auxbanco, $banco["cuenta"]);
+        }
+        header('Content-Type: application/json');
+        echo json_encode($auxbanco);
+
+    }
     /**
     * Get WorstCOmments
     */
     public function getWorstComments($req,$res) {
-        $array=[];
         $mapper=$this->spot->mapper("Entity\Tweet");
-        $banks=$mapper->query("select distinct cuenta from getTweetData")->toArray();
-        foreach ($banks as $key => $banco) {
-            $auxbanco=[];
-            $data=$mapper->query("select * from getWorstComments where vectorSentimiento<0 and cuenta='".$banco["cuenta"]."' limit 10")->toArray();
-            foreach ($data as $key => $value) {
-                $aux=[];
-                $aux["query"]=str_replace("@","",$value["cuenta"]);
-                $aux["vectorSentimiento"]=$value["vectorSentimiento"];
-                $aux["fecha"]=$value["fecha"];
-                $aux["texto"]=$value["texto"];
-                $aux["rt"]=$value["rt"];
-                $aux["fav"]=$value["fav"];
-                array_push($auxbanco,$aux);
-            }
-            $array=array_merge($array, [$banco["cuenta"]=>$auxbanco]);
+        $auxbanco=[];
+        $data=$mapper->query("select * from getWorstComments where vectorSentimiento<0 and cuenta='".$req->data["banco"]."' limit 10")->toArray();
+        foreach ($data as $key => $value) {
+            $aux=[];
+            $aux["query"]=str_replace("@","",$value["cuenta"]);
+            $aux["vectorSentimiento"]=$value["vectorSentimiento"];
+            $aux["fecha"]=$value["fecha"];
+            $aux["texto"]=utf8_decode($value["texto"]);
+            $aux["rt"]=$value["rt"];
+            $aux["fav"]=$value["fav"];
+            array_push($auxbanco,$aux);
         }
-        
-        
-        header('Content-Type: application/json');
-        echo json_encode($array);
+        $res->m = $res->mustache->loadTemplate("utils/tabla.mustache");
+        echo $this->renderView($res,["worstComments"=>$auxbanco,"banco"=>$req->data["banco"]]);
     }
     /**
     * Get BestComments

@@ -27,6 +27,11 @@ $ROUTES=[
         'allow'=>true,
         'get'=>array('Api','getSentimentOverview')
     ],
+    "/api/getBancks"=>[
+        'path'=>'/api/getBancks',
+        'allow'=>true,
+        'get'=>array('Api','getBancks')
+    ],
     "/csv"=>[
         'path'=>'/csv',
         'allow'=>true,
