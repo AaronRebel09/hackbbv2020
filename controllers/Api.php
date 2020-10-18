@@ -63,7 +63,7 @@ class Api extends Tornado\Controller{
     public function getWorstComments($req,$res) {
         $mapper=$this->spot->mapper("Entity\Tweet");
         $auxbanco=[];
-        $data=$mapper->query("select * from getWorstComments where vectorSentimiento<0 and cuenta='".$req->data["banco"]."' limit 10")->toArray();
+        $data=$mapper->query("select * from getWorstComments where vectorSentimiento<0 and cuenta='".$req->data["banco"]."'")->toArray();
         foreach ($data as $key => $value) {
             $aux=[];
             $aux["query"]=str_replace("@","",$value["cuenta"]);
@@ -84,13 +84,13 @@ class Api extends Tornado\Controller{
         
         $mapper=$this->spot->mapper("Entity\Tweet");
         $auxbanco=[];
-        $data=$mapper->query("select * from getWorstComments where vectorSentimiento>0 and cuenta='".$req->data["banco"]."' order by vectorSentimiento desc,rt desc,fav desc limit 10")->toArray();
+        $data=$mapper->query("select * from getWorstComments where vectorSentimiento>0 and cuenta='".$req->data["banco"]."' order by vectorSentimiento desc,rt desc,fav desc")->toArray();
         foreach ($data as $key => $value) {
                 $aux=[];
                 $aux["query"]=str_replace("@","",$value["cuenta"]);
                 $aux["vectorSentimiento"]=$value["vectorSentimiento"];
                 $aux["fecha"]=$value["fecha"];
-                $aux["texto"]=$value["texto"];
+                $aux["texto"]=utf8_decode($value["texto"]);
                 $aux["rt"]=$value["rt"];
                 $aux["fav"]=$value["fav"];
                 array_push($auxbanco,$aux);

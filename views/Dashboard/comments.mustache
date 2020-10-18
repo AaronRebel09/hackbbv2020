@@ -1,11 +1,38 @@
 {{% BLOCKS }}
 {{< panel }}
-{{$ title}} Comments {{/ title}}
+{{$ title}} Comentarios {{/ title}}
 {{$content}}
 <section class="content">
-  <div class="container-fluid">
-  	<div class="tablas"></div>  
-  </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-2">
+				Sentimiento: 
+				<input type="checkbox" id="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="card card-primary card-tabs">
+					<div class="card-header p-0 pt-1">
+						<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+							<li class="nav-item-template" style="display: none;">
+								<a class="nav-link" href="javascript:void(0);" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Home</a>
+							</li>
+						</ul>
+					</div>
+					<div class="card-body">
+						<div class="tab-content" id="custom-tabs-one-tabContent">
+							<div class="tab-pane fade active show" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+								<div class="tabla"></div>
+							</div>
+						</div>
+					</div>
+					<!-- /.card -->
+				</div>
+			</div>
+		</div>
+		 
+	</div>
 </section>
 {{/content}}
 {{$scripts}}
