@@ -6,4 +6,9 @@ class Dashboard extends Tornado\Controller {
 
     	echo $this->renderView($res);
     }
+
+    public function comments($req,$res)  {
+
+        echo $this->renderView($res);
+    }
 }

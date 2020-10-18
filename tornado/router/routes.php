@@ -42,6 +42,11 @@ $ROUTES=[
         'allow'=>true,
         'get'=>array('Dashboard','home')
     ],
+    "/comments"=>[
+    'path'=>'/comments',
+    'allow'=>true,
+    'get'=>array('Dashboard','comments')
+    ],
 ];
 foreach ($ROUTES as $key => $route) {
     $router->addRoute($route);

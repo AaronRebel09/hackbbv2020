@@ -1,0 +1,5 @@
+.large_text {
+	word-break: break-all;
+	width: 25%;
+	white-space: pre-wrap;
+}

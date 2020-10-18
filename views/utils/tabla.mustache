@@ -1,51 +1,50 @@
 <div class="row tablaBanco">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">{{banco}}</h3>
+        <!-- <div class="card-tools">
+          <div class="input-group input-group-sm" style="width: 150px;">
+            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0 dataTableBank">
-                  <table class="table table-hover text-nowrap" id="{{banco}}">
-                    <thead>
-                      <tr>
-                        <th>Institucion</th>
-                        <th>Sentimiento</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Reason</th>
-                        <th>Reason</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {{#comments}} 
-                        <tr>
-                          <td>{{query}}</td>
-                          <td>{{vectorSentimiento}}</td>
-                          <td> fecha </td>
-                          <td>{{texto}}</td>
-                          <td>{{rt}}</td>
-                          <td>{{fav}}</td>
-                        </tr>
-                      {{/comments}}
-                    </tbody>
-                  </table>
-
-              </div>
-              <!-- /.card-body -->
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-default">
+                <i class="fas fa-search"></i>
+              </button>
             </div>
-            <!-- /.card -->
           </div>
-        </div>
+        </div> -->
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-2 dataTableBank">
+        <table class="table table-hover text-nowrap" id="{{banco}}">
+          <thead>
+            <tr>
+              <th>Institucion</th>
+              <th>Sentimiento</th>
+              <th>Fecha</th>
+              <th>Contenido</th>
+              <th>Retweet's</th>
+              <th>Fav's</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#comments}} 
+            <tr>
+              <td>{{query}}</td>
+              <td>{{vectorSentimiento}}</td>
+              <td> {{fecha.getTimeStamp | date.fecha_hora}} </td>
+              <td class="large_text" >{{texto}}</td>
+              <td>{{rt}}</td>
+              <td>{{fav}}</td>
+            </tr>
+            {{/comments}}
+          </tbody>
+        </table>
+
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
