@@ -16,8 +16,47 @@ require 'utilerias/Imagenes.php';
  */
 class Plain extends Tornado\Controller{
     public function home($req,$res) {
-    	$mapper=$this->spot->mapper("Entity\Tweet");
-    	$data=$this->leerCsv(__TOR__.'/resources/etl5.csv');
+    	$diccionario = ["cuenta","clabe","pin", "tarjeta", "tc ", "tdc", "retiro", "cajeros", "ejecutivo", "sucursal",
+               "retuvo", "trabo", "practicaja", "llamada", "llamaron", "marcado", "cargo",
+               "puntos", "condusefmx", "condusef", "pyme", "pandemia", "credito", "cliente",
+               "endeudado", "spam", "comision", "colgaron", "transferencia", "spei", "anualidad", "descuento",
+               "atasco", "comunicarme", "token", "seguro", "asesor", "aclaracion", "poliza", "biometrico",
+               "app", "aplicacion", "wallet", "audiomatico", "banco", "deposito", "transa", "netkey", "dolar",
+               "divisa", "sat", "isr", "impuesto", "interes", "servicio", "respuesta", "atencion", "hipoteca",
+               "casa", "vivienda", "pay", "pago", "pesimo", "bueno", "excelente", "afore", "nip", "crisis",
+               "seguridad", "fraude", "acoso", "nomina", "reclama", "reclamo", "cambia", "cambio", "disculpa",
+               "debito", "oferta", "ofrece", "queja", "lavado", "dinero", "efectivo", "robo", "roba", "extravio",
+               "reembolso", "rembolso", "cuentahabiente", "inversion", "rendimiento", "intereses"];
+        $mapper=$this->spot->mapper("Entity\Tweet");
+        $data=$mapper->select();
+        foreach ($data as $key => $value) {
+            $texto_aux=strtolower(utf8_decode($value->texto));
+            $texto_aux=str_replace("á", "a",$texto_aux);
+            $texto_aux=str_replace("é", "e",$texto_aux);
+            $texto_aux=str_replace("í", "i",$texto_aux);
+            $texto_aux=str_replace("ó", "o",$texto_aux);
+            $texto_aux=str_replace("ú", "u",$texto_aux);
+            $texto_aux=preg_replace('/\s+/', ' ', $texto_aux);
+            $aux="";
+            foreach ($diccionario as $palabra) {
+                $pos = strpos($texto_aux, $palabra);
+                if($pos===false){
+
+                }else{
+                    $aux.=$palabra.",";
+                }
+            }
+            if($aux!=""){
+                $aux=substr($aux,0,strlen($aux)-1);    
+            }else{
+                $aux="otro";
+            }
+            $value->palabras=$aux;
+            $mapper->update($value);
+        }
+
+
+    	/*$data=$this->leerCsv(__TOR__.'/resources/etl5.csv');
         try{
             foreach ($data as $key => $tweet) {
 
@@ -61,7 +100,7 @@ class Plain extends Tornado\Controller{
         catch (\Exception $e){
             $this->pr($e);
             exit;
-        }
+        }*/
     }
 
 
