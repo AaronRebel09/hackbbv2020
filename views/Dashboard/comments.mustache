@@ -3,9 +3,32 @@
 {{$ title}} Comments {{/ title}}
 {{$content}}
 <section class="content">
-  <div class="container-fluid">
-  	<div class="tablas"></div>  
-  </div>
+	<div class="container-fluid">
+		<div class="card card-primary card-tabs">
+			<div class="card-header p-0 pt-1">
+				<ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="custom-tabs-positivo-tab" data-toggle="pill" href="#custom-tabs-positivo" role="tab" aria-controls="custom-tabs-positivo" aria-selected="true">Positivos</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="custom-tabs-negativo-tab" data-toggle="pill" href="#custom-tabs-negativo" role="tab" aria-controls="custom-tabs-negativo" aria-selected="false">Negativos</a>
+					</li>
+				</ul>
+			</div>
+			<div class="card-body">
+				<div class="tab-content" id="custom-tabs-two-tabContent">
+					<div class="tab-pane fade show active" id="custom-tabs-positivo" role="tabpanel" aria-labelledby="custom-tabs-two-positivo">
+						<div class="tablas-positivo"></div>  
+					</div>
+					<div class="tab-pane fade" id="custom-tabs-negativo" role="tabpanel" aria-labelledby="custom-tabs-negativo-tab">
+						<div class="tablas-negativo"></div>  
+					</div>
+				</div>
+			</div>
+			<!-- /.card -->
+		</div>
+		
+	</div>
 </section>
 {{/content}}
 {{$scripts}}

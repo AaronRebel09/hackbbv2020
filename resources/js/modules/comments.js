@@ -4,16 +4,25 @@ $(()=>{
 
 function crearTablasBanco() {
 	$.get('/api/getBancks', function(data) {
-		data.forEach(e=>obtenerTablaBanco(e))
-		// for (var i = data.length - 1; i >= 0; i--) {
-		// 	obtenerTablaBanco(data[i]);
-		// }
+		data.forEach(e=>{
+			obtenerTablaBancoNegativo(e)
+			obtenerTablaBancoPositivo(e)
+		})
 	});
 }
-function obtenerTablaBanco(banco) {
+function obtenerTablaBancoNegativo(banco) {
 	$.get('/api/getWorstComments?banco='+banco, function(data) {
-		$(".tablas").append(data);
-		$('body #'+banco).DataTable( {
+		$(".tablas-negativo").append(data);
+		$('body #'+banco+"negativo").DataTable( {
+    		"autoWidth": true,
+    		"searching": true
+		});
+	});
+}
+function obtenerTablaBancoPositivo(banco) {
+	$.get('/api/getBestComments?banco='+banco, function(data) {
+		$(".tablas-positivo").append(data);
+		$('body #'+banco+"positivo").DataTable( {
     		"autoWidth": true,
     		"searching": true
 		});

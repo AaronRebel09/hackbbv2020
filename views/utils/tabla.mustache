@@ -3,8 +3,8 @@
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">{{banco}}</h3>
-        <!-- <div class="card-tools">
-          <div class="input-group input-group-sm" style="width: 150px;">
+        <div class="card-tools">
+          <!-- <div class="input-group input-group-sm" style="width: 150px;">
             <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
             <div class="input-group-append">
@@ -14,7 +14,6 @@
             </div>
           </div>
         </div> -->
-      </div>
       <!-- /.card-header -->
       <div class="card-body table-responsive p-2 dataTableBank">
         <table class="table table-hover text-nowrap" id="{{banco}}">
@@ -32,7 +31,7 @@
             {{#comments}} 
             <tr>
               <td>{{query}}</td>
-              <td>{{vectorSentimiento}}</td>
+              <td><i class="far {{vectorSentimiento}}"></i></td>
               <td> {{fecha.getTimeStamp | date.fecha_hora}} </td>
               <td class="large_text" >{{texto}}</td>
               <td>{{rt}}</td>
