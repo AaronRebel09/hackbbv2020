@@ -1,7 +1,7 @@
 const randomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 const randomByte = () => randomNumber(0, 255)
 const randomPercent = () => (randomNumber(50, 100) * 0.01).toFixed(2)
-const randomCssRgba = () => `rgba(${[randomByte(), randomByte(), randomByte(), randomPercent()].join(',')})`
+const randomCssRgba = () => `rgba(${[randomByte(), randomByte(), randomByte(), randomPercent()].join(',')}`
 
 $(()=>{
 	configRetweetDiario()
@@ -48,14 +48,18 @@ function updateRetweetDiario() {
 		let bbvaDataset = bbvaData.map(element=>element.promedioRT)
 		
 
-		let datasets = Object.entries(data).map((element,index)=>({
+		let datasets = Object.entries(data).map((element,index)=>{
+			let color = randomCssRgba()
+			console.log(color);
+			return ({
 			label               : element[0],
-			backgroundColor     : index == 0 ? 'rgba(60,141,188,0.5)' : index == 1 ? 'rgba(188, 60, 141, 0.5)' : 'rgba(141, 188, 60, 0.5)',
-			borderColor         : index == 0 ? 'rgba(60,141,188,0.8)' : index == 1 ? 'rgba(188, 60, 141, 0.8)' : 'rgba(141, 188, 60, 0.8)',
+			backgroundColor     : color,// + ",0.2)",
+			borderColor         : color,// + ",0.8)",
 			data                : (labels.map(item=> {
 				let find = (element[1].find(data => formatDate(new Date(data.fecha.date)) == item)) 
 				return find ? find.promedioRT : 0
 			}))})
+	}
 		)
 		var areaChartData = {
 			labels,
@@ -104,15 +108,18 @@ function updateFavDiario() {
 		let bbvaData = data.bbva
 		let labels = bbvaData.map(element=>formatDate(new Date(element.fecha.date)));
 		let bbvaDataset = bbvaData.map(element=>element.promedioRT)
-		let datasets = Object.entries(data).map((element,index)=>({
+		let datasets = Object.entries(data).map((element,index)=>{
+			let color = randomCssRgba()
+			return ({
 			label               : element[0],
-			backgroundColor     : index == 0 ? 'rgba(200,128,200,0.5)' : index == 1 ? 'rgba(0, 0, 259, 0.5)' : 'rgba(128, 128, 0, 0.5)',
-			borderColor         : index == 0 ? 'rgba(60,141,188,0.8)' : index == 1 ? 'rgba(188, 60, 141, 0.8)' : 'rgba(141, 188, 60, 0.8)',
+			backgroundColor     : color,// + ', 0.5)',
+			borderColor         : color,// + ', 0.8)',
 			data                : (labels.map(item=> {
 				let find = (element[1].find(data => formatDate(new Date(data.fecha.date)) == item)) 
 				console.log(find);
 				return find ? find.promedioRT : 0
 			}))})
+		}
 		)
 		var areaChartData = {
 			labels,
